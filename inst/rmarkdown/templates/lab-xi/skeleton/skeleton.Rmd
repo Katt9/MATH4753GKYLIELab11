@@ -1,0 +1,102 @@
+---
+title: "Lab XI - Tests of Hypotheses Part I"
+author: "Kylie Humble"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(MATH4753GKYLIELab11)
+```
+
+# Introduction
+
+# Tasks
+
+## Task 1
+### a.
+Show via $\LaTeX$ that with $\alpha_1$ in the lower tail and $\alpha_2$  in the upper tail and $\alpha = \alpha_1 + \alpha_2$ that a $100(1 - \alpha)\%$ ci is $\bigg(\bar Y + t_{1 - \alpha_1} \cdot \frac{s}{\sqrt{n}}, \bar Y + t_{\alpha_2} \cdot \frac{s}{\sqrt{n}} \bigg)$.
+
+Proof:
+
+Given that $\frac{\bar{Y} - \mu}{s/\sqrt{n}} \sim t_{n-1}$, the probability can be rewritten as
+$$P\bigg(\bar Y + t_{1 - \alpha_1} \cdot \frac{s}{\sqrt{n}} \le \mu \le \bar Y + t_{\alpha_2} \cdot \frac{s}{\sqrt{n}} \bigg) = 1 - \alpha$$
+Rearranged to work with the t-distribution, we get
+$$P\bigg(-t_{1 - \alpha_1} < \frac{\bar Y - \mu}{s/\sqrt{n}} < t_{\alpha_2} \bigg) = 1 - (\alpha_1 + \alpha_2) = 1 - \alpha$$
+Multiplying $\frac{s}{\sqrt{n}}$, we obtain
+$$P\bigg(-t_{1 - \alpha_1} \cdot \frac{s}{\sqrt{n}} < \bar Y - \mu < t_{\alpha_2} \cdot \frac{s}{\sqrt{n}}\bigg) = 1 - \alpha$$
+Rearranging to isolate $\mu$ yields
+$$P\bigg(\bar Y + t_{1 - \alpha_1} \cdot \frac{s}{\sqrt{n}} < \mu < \bar Y + t_{\alpha_2} \cdot \frac{s}{\sqrt{n}}\bigg) = 1 - \alpha$$
+Hence, we form a two-sided confidence interval:
+$$\bigg(\bar Y + t_{1 - \alpha_1} \cdot \frac{s}{\sqrt{n}}, ~\bar Y + t_{\alpha_2}  \cdot \frac{s}{\sqrt{n}} \bigg)$$
+
+### b.
+Make a function that will:
+
+- Create the above non-symmetrical ci interval for any conformable $\alpha, ~\alpha_1 = \alpha - \alpha_2$ is determined from the two.
+- Plot the histogram of the data using `ggplot2` (see below).
+- Create a test against $H_0: \mu = \mu_0 \pm  \epsilon$ by testing if the ball about $\mu_0$ is within the ci. If the ci contains the ball completely, return a "TRUE" otherwise "FALSE". (See below).
+- Other details of the function, its name and options list output, etc. (See below).
+- Run the code as shown below (take note of the options to the function). Essentially your job is to make the function to behave as shown by the example.
+```{r}
+library(dplyr, warn.conflicts = FALSE)
+
+df <- ddt %>% filter(SPECIES == "CCATFISH")
+
+ciNonSym <- function(x, alpha, alpha2, mu0, epsilon, bins) {
+  # Calculate alpha1
+  alpha1 <- alpha - alpha2
+  
+  # Calculate the sample statistics
+  n <- length(x)
+  mean_x <- mean(x)
+  sd_x <- sd(x)
+  
+  # Calculate the lower and upper tail critical values
+  t_lower <- qt(1 - alpha1, df = n - 1)
+  t_upper <- qt(alpha2, df = n - 1)
+  
+  # Calculate the non-symmetrical confidence interval
+  
+}
+
+ciNonSym(
+  x = df$LENGTH,
+  alpha = 0.05,
+  alpha2 = 0.02,
+  mu0 = 45,
+  epsilon = 4,
+  bins = 25
+)
+```
+
+## Task 2
+Note that the above function works on a quantitative vector created from the ddt data set. The options are $\alpha$, $\alpha_2$, $\mu_0$, $\epsilon$, and the bins option.
+
+Make a SHINY app using the above function that will:
+
+- Work on some quantitative vector of the `DDT` data set for a given category (`RIVER`, `SPECIES`), so that a menu is used to input the variable (`LENGTH`, `WEIGHT`, `DDT`) and another (`RIVER`, `SPECIES`).
+
+- Sliders that input the other options.
+
+- The list output should be printed to a table.
+
+- The `ggplot` should appear as above with colors and suitable heading.
+
+- The plot should be clickable so that the `x` coordinate updates the value of $\mu_0$.
+
+## Task 3
+### a.
+Package the function `ciNonSym()` so that it runs as shown in **Task 1**.
+
+### b.
+Package the SHINY app and call it through a function. You choose the name of the function.
+
+### c.
+The package should be complete, function documentation and vignette every detail.
+
+

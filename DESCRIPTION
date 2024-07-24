@@ -1,0 +1,13 @@
+Package: MATH4753GKYLIELab11
+Type: Package
+Title: Lab XI - Tests of Hypotheses Part I
+Version: 0.1.0
+Author: Kylie Humble
+Maintainer: Kylie Humble <kylie.k.humble-1@ou.edu>
+Description: This lab explores the nature of hypothesis testing (MS Chapter 8 from sections 1 to 8).
+  You will need to derive a formula for a particular interval and make an app that will usefully engage
+  the theory with dynamical plots and output.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.1
