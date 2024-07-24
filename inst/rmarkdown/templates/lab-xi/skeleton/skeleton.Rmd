@@ -61,6 +61,10 @@ ciNonSym <- function(x, alpha, alpha2, mu0, epsilon, bins) {
   t_upper <- qt(alpha2, df = n - 1)
   
   # Calculate the non-symmetrical confidence interval
+  ci_lower <- mean_x + t_lower * sd_x / sqrt(n)
+  ci_upper <- mean_x + t_upper * sd_x / sqrt(n)
+  
+  ci <- c(ci_lower, ci_upper)
   
 }
 
